@@ -23,7 +23,7 @@ class StreamReader:
 
         
         # if you increase buffer size it helps to consistent frames but if you reduece it it helps to get real time stream
-        self.stream.set(cv2.CAP_PROP_BUFFERSIZE, 1)
+        self.stream.set(cv2.CAP_PROP_BUFFERSIZE, 3)
         ret, frame = self.stream.read()
         self.FPS = fps
         self.realFPS = fps
@@ -38,7 +38,7 @@ class StreamReader:
     # override the run function
     def update(self):
         last_fps_calculated_at = time.time()
-        while True:
+        while self.stream.isOpened():
             ret, self.img = self.stream.read()
             self.frameId += 1
 
@@ -99,8 +99,8 @@ class StreamViewer:
         cv2.destroyAllWindows()
 
 
-stream_reader = StreamReader("/dev/video1", 1024)
-stream_viewer = StreamViewer(stream_reader, 1024)
+stream_reader = StreamReader("/dev/video1", 1920)
+stream_viewer = StreamViewer(stream_reader, 756)
 
 while True:
     time.sleep(5)
